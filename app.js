@@ -11,8 +11,10 @@ let urls = [
 
 urls.forEach( url => {
 
-    themeInfos(url, (infos) =>{
-        console.log(infos);
+    themeInfos(url, (infos) => {
+
+        console.log(infos); 
+        
     });
 
 });

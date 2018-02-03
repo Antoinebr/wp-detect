@@ -2,8 +2,7 @@ var _ = require('lodash');
 
 
 module.exports = class detectWP {
-  
-
+      
     
     static getTheme(body) {
 
@@ -11,7 +10,7 @@ module.exports = class detectWP {
 
         if ( theme !== null && theme[0] )  return  theme[0].replace('/themes/','').replace('/','');
 
-        return false; 
+        return null; 
 
     }
 
@@ -22,18 +21,21 @@ module.exports = class detectWP {
 
         let themeName = regex.exec(body);
 
-        if ( themeName !== null && themeName[0] )  return  _.trim( themeName[0].replace(`${param}:`,'') );
+        if ( themeName !== null && themeName[0] ){
 
-        return false;
+            // If the declaration is misformed e.g : everything on online
+            if ( themeName[0].length > 800 ) return false; 
+
+            return  _.trim( themeName[0].replace(`${param}:`,'') );
+            
+        } 
+
+        return null;
 
     }
 
 
-  
-    
-    
 }
 
 
   
- 

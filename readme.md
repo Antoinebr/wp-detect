@@ -5,6 +5,12 @@ A node JS WordPress detection.
 
 ## How to use 
 
+```bash
+
+npm install 
+
+```
+
 ```JavaScript 
 
 const themeInfos = require('./theme.js');
