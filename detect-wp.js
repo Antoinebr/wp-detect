@@ -23,7 +23,7 @@ module.exports = class detectWP {
 
         if ( themeName !== null && themeName[0] ){
 
-            // If the declaration is misformed e.g : everything on online
+            // If the declaration is misformed e.g : everything on one line
             if ( themeName[0].length > 800 ) return false; 
 
             return  _.trim( themeName[0].replace(`${param}:`,'') );
