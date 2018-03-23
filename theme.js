@@ -1,7 +1,9 @@
 
-var request = require('request');
+const request = require('request');
 
 const wp  = require('./detect-wp.js');
+
+const a = require('await-to-js');
 
 
 /**
@@ -9,7 +11,7 @@ const wp  = require('./detect-wp.js');
  * @param {string} url 
  * @return {promise}
  */
-function getThemeSlug(url){
+const getThemeSlug = function(url){
 
     return new Promise( (resolve, reject) => {  
       
@@ -41,7 +43,7 @@ function getThemeSlug(url){
  * @param {string} theme theme slug to complete url
  * @return {promise} return an object in a promise with the theme's infos 
  */
-function getInfos(url,theme){
+const getInfos = function (url,theme){
     return new Promise( (resolve, reject) => {  
       
         request( `http://${url}/wp-content/themes/${theme}/style.css`, (error, response, body)  => {
@@ -71,28 +73,66 @@ function getInfos(url,theme){
     })  
 }
   
-  
 
-module.exports =  async function (url, callback){
+
+/**
+ * Return themes infos from a given URL
+ * @param {*} url 
+ * @param {*} callback 
+ * @return {callback}
+ */
+const themeInfos = async function (url, callback){
 
     let slug = null;
     let infos = {};
 
-    try{
-        slug  = await getThemeSlug(url); 
-    } catch(e){
-        return callback( error = true ,infos );
-    } 
+    [ err, slug ] = await a.to( getThemeSlug(url) );
 
-    try{
-        infos = await getInfos(url,slug);
-    } catch(e){
-        return callback( error = true  ,infos );
-    }
+    if( !slug ) infos.error = true;
 
-    return callback( error = false ,infos );
 
+    [ err, infos ] = await a.to( getInfos(url,slug) );
+
+    if( !infos ) infos.error = true;
+
+
+    return callback(infos);
 }
 
 
+/**
+ * 
+ * List the front-end plugins by counting 
+ * the number of unique plugins which include scripts or css file
+ * @param {string} url 
+ * @return {array} return an array in a promise
+ */
+const listFrontPlugins = function(url){
+    return new Promise( (resolve, reject) => {  
+      
+        request( `http://${url}`, (error, response, body)  => {
+
+
+            if( typeof response === "undefined" ||  error ) return reject(error);
+
+            if( response.statusCode === 200 && body ){
+                
+                plugins = wp.getPlugins(body);
+
+                return resolve(plugins);
+            }
+
+        } );
+      
+    })  
+}
+
+
+
+module.exports =  {
+    getThemeSlug,
+    getInfos,
+    themeInfos,
+    listFrontPlugins
+}
 

@@ -1,5 +1,6 @@
-const themeInfos = require('./theme.js');
+const wp = require('./theme.js');
 
+const pluginsInfos = require('./plugins.js');
 
 let urls = [
 
@@ -7,17 +8,25 @@ let urls = [
 
 ];
 
-
+   
 
 urls.forEach( url => {
 
-    themeInfos(url, (infos) => {
+    console.log(`----- ${url} ----- `);
+
+    wp.themeInfos(url, (infos) => {
+
+        if( infos.error ) console.log( infos.error );
 
         console.log(infos); 
         
     });
 
+
+    wp.listFrontPlugins(url)
+        .then( u => console.log(u) )
+        .catch ( e => console.log('Error => ', e) );
+
+        
 });
   
-
-

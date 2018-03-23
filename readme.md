@@ -13,27 +13,21 @@ npm install
 
 ```JavaScript 
 
-const themeInfos = require('./theme.js');
+const wp = require('./theme.js');
 
-const url = "https://wooCommerce.com";
 
-themeInfos(url, (infos) => console.log(infos) );
+  wp.themeInfos(url, (infos) => {
 
+      if( infos.error ) console.log( infos.error );
+
+      console.log(infos); 
+      
+  });
+
+
+  wp.listFrontPlugins(url)
+      .then( u => console.log(u) )
+      .catch ( e => console.log('Error => ', e) );
 
 ``` 
 
-
-## Return 
-
-The function will return an object : 
-
-```JavaScript 
-
-{ 
-  themeName: 'Opus - Wordpress Theme',
-  themeAuthor: 'gljivec',
-  themeURI: 'http://themeforest.net/',
-  authorURI: 'http://premiumcoding.com/' 
-}
-
-```

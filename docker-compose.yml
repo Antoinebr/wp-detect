@@ -1,0 +1,7 @@
+node-wp-detect:
+  image: node:alpine
+  restart: always
+  tty: true
+  volumes:
+    - ./:/app/
+

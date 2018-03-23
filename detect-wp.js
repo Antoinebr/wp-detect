@@ -35,6 +35,26 @@ module.exports = class detectWP {
     }
 
 
+    
+    static getPlugins(body){
+
+        let plugins = body.match(/\/plugins\/[a-z-0-9]+\//g);
+
+        if ( plugins !== null && plugins[0] ){
+
+            // If the declaration is misformed 
+            if ( plugins[0].length > 800 ) return false; 
+
+            plugins = plugins.map( p => p.replace('/plugins/','').replace('/','') );
+
+            return  _.uniq(plugins);
+            
+        } 
+
+        return null;
+
+    }
+
 }
 
 
