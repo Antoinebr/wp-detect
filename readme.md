@@ -11,6 +11,9 @@ npm install
 
 ```
 
+Have a look to the tests in ```test/tests.js``` for more examples.
+
+
 ```JavaScript 
 
 const wp = require('./theme.js');

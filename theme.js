@@ -11,7 +11,7 @@ const a = require('await-to-js');
  * @param {string} url 
  * @return {promise}
  */
-const getThemeSlug = function(url){
+const getThemeSlug = (url) => {
 
     return new Promise( (resolve, reject) => {  
       
@@ -43,7 +43,7 @@ const getThemeSlug = function(url){
  * @param {string} theme theme slug to complete url
  * @return {promise} return an object in a promise with the theme's infos 
  */
-const getInfos = function (url,theme){
+const getInfos =  (url,theme) => {
     return new Promise( (resolve, reject) => {  
       
         request( `http://${url}/wp-content/themes/${theme}/style.css`, (error, response, body)  => {
@@ -81,7 +81,7 @@ const getInfos = function (url,theme){
  * @param {*} callback 
  * @return {callback}
  */
-const themeInfos = async function (url, callback){
+const themeInfos = async (url, callback) => {
 
     let slug = null;
     let infos = {};
@@ -107,7 +107,7 @@ const themeInfos = async function (url, callback){
  * @param {string} url 
  * @return {array} return an array in a promise
  */
-const listFrontPlugins = function(url){
+const listFrontPlugins = (url) => {
     return new Promise( (resolve, reject) => {  
       
         request( `http://${url}`, (error, response, body)  => {
@@ -128,11 +128,38 @@ const listFrontPlugins = function(url){
 }
 
 
+/**
+ *  Give informations about if a plugin exists or not on a given WordPress domain
+ * 
+ * @param {string} domain 
+ * @param {string} pluginSlug 
+ * @param {strong} fileToFind a file like a readme.md to 
+ */
+const doesPluginExist = (domain, pluginSlug , fileToFind) =>{
+
+    return new Promise( (resolve, reject) => {  
+         
+        request( `http://${domain}/wp-content/plugins/${pluginSlug}/${fileToFind}`, (error, response, body)  => {
+
+
+            if( typeof response === "undefined" ||  error ) return reject(error);
+
+            if( response.statusCode === 200 && body ) return resolve(true);
+
+            if( response.statusCode === 404 ) return resolve(false);
+
+        } );
+      
+    })  
+
+}
+
 
 module.exports =  {
     getThemeSlug,
     getInfos,
     themeInfos,
-    listFrontPlugins
+    listFrontPlugins,
+    doesPluginExist
 }
 

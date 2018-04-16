@@ -42,6 +42,42 @@ describe('listFrontPlugins() : count number of plugins ' , function() {
      
     });
 
+
+    it('should find jetpack on wwww.antoinebrossault.com ', function(done) {
+
+        this.timeout(15000);
+
+        wp.doesPluginExist('www.antoinebrossault.com','jetpack','CODE-OF-CONDUCT.md')
+        .then( res  => {
+
+            assert.equal(res, true);
+
+            done();
+
+        })
+        .catch( e => console.log(e) );
+
+
+    })
+
+
+    it('should NOT find jetpack on monbraceletnato.fr ', function(done) {
+
+        this.timeout(15000);
+
+        wp.doesPluginExist('monbraceletnato.fr','jetpack','CODE-OF-CONDUCT.md')
+        .then( res  => {
+
+            assert.equal(res, false);
+
+            done();
+
+        })
+        .catch( e => console.log(e) );
+
+
+    })
+
 });
 
 
