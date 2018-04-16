@@ -27,8 +27,9 @@ const getThemeSlug = (url) => {
                 if ( theme ) return resolve(theme);
 
             }
-            
 
+            return reject(`Error with status code of : ${response.statusCode}`);
+            
         });
     
     });
@@ -67,6 +68,8 @@ const getInfos =  (url,theme) => {
                 
                 return resolve(themeInfo);
             }
+
+            return reject(`Error with status code of : ${response.statusCode}`);
 
         } );
       
@@ -116,6 +119,8 @@ const listFrontPlugins = (url) => {
 
                 return resolve(plugins);
             }
+
+            return reject(`Error with status code of : ${response.statusCode}`);
 
         } );
       
