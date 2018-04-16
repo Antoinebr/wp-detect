@@ -2,30 +2,31 @@ const wp = require('./theme.js');
 
 const pluginsInfos = require('./plugins.js');
 
-let urls = [
+
+const urls = [
 
     "europeanleathergallery.com","landhausdielenonline.de"
 
 ];
 
-   
+
 
 urls.forEach( url => {
 
-    console.log(`----- ${url} ----- `);
 
-    wp.themeInfos(url, (infos) => {
-
-        if( infos.error ) console.log( infos.error );
-
-        console.log(infos); 
-        
-    });
+    wp.themeInfos(url)
+        .then( infos => console.log(infos))
+        .catch( error => console.log(infos))
 
 
     wp.listFrontPlugins(url)
         .then( u => console.log(u) )
         .catch ( e => console.log('Error => ', e) );
+
+
+    wp.doesPluginExist(url,'jetpack','CODE-OF-CONDUCT.md')
+        .then( res  => console.log(`${url} Jetpack testing : ${res}`) )
+        .catch( e => console.log(e) );
 
         
 });

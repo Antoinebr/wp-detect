@@ -5,6 +5,39 @@ const wp = require('../theme.js');
 
 
 
+
+
+describe('Theme Infos response  ' , function() {
+
+    it('should return themes infos from europeanleathergallery.com', function(done) {
+        
+        this.timeout(15000);
+
+        wp.themeInfos("europeanleathergallery.com")
+            .then(infos => {
+
+                assert.deepEqual( infos , { 
+                    themeSlug: 'opus',
+                    themeName: 'Opus - Wordpress Theme',
+                    themeAuthor: 'gljivec',
+                    themeURI: 'http://themeforest.net/',
+                    authorURI: 'http://premiumcoding.com/' 
+                });
+
+            })
+            .then(done, done)
+            .catch( e => console.log(e) );
+
+                   
+    });
+
+});
+
+
+
+
+
+
 describe('listFrontPlugins() : count number of plugins ' , function() {
 
 
@@ -43,6 +76,16 @@ describe('listFrontPlugins() : count number of plugins ' , function() {
     });
 
 
+});
+
+
+
+
+
+
+describe('Jetpack testing ' , function() {
+
+
     it('should find jetpack on wwww.antoinebrossault.com ', function(done) {
 
         this.timeout(15000);
@@ -58,7 +101,7 @@ describe('listFrontPlugins() : count number of plugins ' , function() {
         .catch( e => console.log(e) );
 
 
-    })
+    });
 
 
     it('should NOT find jetpack on monbraceletnato.fr ', function(done) {
@@ -76,8 +119,6 @@ describe('listFrontPlugins() : count number of plugins ' , function() {
         .catch( e => console.log(e) );
 
 
-    })
+    });
 
 });
-
-

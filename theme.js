@@ -78,25 +78,20 @@ const getInfos =  (url,theme) => {
 /**
  * Return themes infos from a given URL
  * @param {*} url 
- * @param {*} callback 
- * @return {callback}
+ * @return {promise}
  */
-const themeInfos = async (url, callback) => {
-
-    let slug = null;
-    let infos = {};
-
-    [ err, slug ] = await a.to( getThemeSlug(url) );
-
-    if( !slug ) infos.error = true;
+const themeInfos = (url) => {
 
 
-    [ err, infos ] = await a.to( getInfos(url,slug) );
+    return new Promise( (resolve, reject) => {  
+         
+        getThemeSlug(url)
+            .then(slug => getInfos(url,slug))
+            .then(infos => resolve(infos))
+            .catch( error => reject(error));
 
-    if( !infos ) infos.error = true;
-
-
-    return callback(infos);
+    });
+        
 }
 
 
@@ -126,6 +121,8 @@ const listFrontPlugins = (url) => {
       
     })  
 }
+
+
 
 
 /**
